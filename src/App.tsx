@@ -86,16 +86,22 @@ const App: React.FC = () => {
     if (!scrollContainerRef.current) return;
     const container = scrollContainerRef.current;
 
-    // SPALDING text entrance (still using GSAP for DOM elements — this is fine)
+    // SPALDING text entrance
     if (spacingRef.current) {
       const headingChars = spacingRef.current.innerText.split('');
       spacingRef.current.innerHTML = headingChars.map(char => `<span class="inline-block">${char}</span>`).join('');
-      gsap.from(spacingRef.current.children, {
-        opacity: 0, scale: 0.8, y: 50,
-        duration: 1, stagger: 0.05, ease: "power3.out"
-      });
+      gsap.fromTo(spacingRef.current.children, 
+        { opacity: 0, scale: 0.8, y: 50 },
+        {
+          opacity: 1, scale: 1, y: 0,
+          duration: 1, stagger: 0.05, ease: "power3.out"
+        }
+      );
     }
-    gsap.from(".ui-fade-in", { opacity: 0, y: 20, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.5 });
+    gsap.fromTo(".ui-fade-in", 
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.5 }
+    );
 
     const onScroll = () => {
       const total = container.scrollHeight - container.clientHeight;
@@ -127,14 +133,14 @@ const App: React.FC = () => {
       <div className="relative w-full h-full bg-brand-black rounded-[24px] overflow-hidden flex flex-col">
         
         {/* Navigation */}
-        <nav className="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-12 py-12 ui-fade-in">
-          <div className="text-2xl font-black tracking-tighter italic flex items-center gap-3">
-            <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-              <Menu className="w-4 h-4 text-black" />
+        <nav className="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-8 md:py-12 ui-fade-in">
+          <div className="text-xl md:text-2xl font-black tracking-tighter italic flex items-center gap-2 md:gap-3">
+            <div className="w-5 h-5 md:w-6 md:h-6 bg-white rounded-full flex items-center justify-center">
+              <Menu className="w-3 h-3 md:w-4 md:h-4 text-black" />
             </div>
-            <span className="uppercase font-display text-3xl">BASKET BALL</span>
+            <span className="uppercase font-display text-2xl md:text-3xl">BASKET BALL</span>
           </div>
-          <div className="hidden md:flex gap-16 text-[18px] font-medium uppercase tracking-widest">
+          <div className="hidden lg:flex gap-16 text-[18px] font-medium uppercase tracking-widest">
             <a href="#" className="hover:opacity-80 transition-opacity" style={{ color: themeColor }}>Products</a>
             <button 
               onClick={() => setIsCustomizing(!isCustomizing)}
@@ -145,9 +151,9 @@ const App: React.FC = () => {
             </button>
             <a href="#" className="text-white hover:opacity-80 transition-colors uppercase tracking-widest">Contacts</a>
           </div>
-          <div className="flex items-center gap-8 text-white">
+          <div className="flex items-center gap-4 md:gap-8 text-white">
             <div 
-              className="cursor-pointer transition-all p-2 rounded-full border-2 hover:scale-110 flex items-center justify-center"
+              className="cursor-pointer transition-all p-1.5 md:p-2 rounded-full border-2 hover:scale-110 flex items-center justify-center"
               style={{ 
                 backgroundColor: themeColor, 
                 borderColor: themeColor,
@@ -155,13 +161,13 @@ const App: React.FC = () => {
                 boxShadow: `0 0 20px ${themeColor}88`
               }}
             >
-              <User className="w-6 h-6" />
+              <User className="w-5 h-5 md:w-6 md:h-6" />
             </div>
             <div 
               className="relative cursor-pointer group"
               onClick={() => setIsCartOpen(true)}
             >
-              <ShoppingCart className="w-6 h-6 group-hover:opacity-80 transition-colors" style={{ color: themeColor }} />
+              <ShoppingCart className="w-5 h-5 md:w-6 md:h-6 group-hover:opacity-80 transition-colors" style={{ color: themeColor }} />
               <span className="absolute -top-2 -right-2 text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: themeColor }}>{cart.length}</span>
             </div>
           </div>
@@ -193,7 +199,7 @@ const App: React.FC = () => {
         <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
           <h1 
             ref={spacingRef}
-            className="text-[100px] md:text-[180px] font-black leading-[1.0] tracking-[0.01em] text-brand-gray select-none uppercase font-display text-center"
+            className="text-[60px] sm:text-[100px] md:text-[180px] font-black leading-[1.0] tracking-[0.01em] text-brand-gray select-none uppercase font-display text-center"
           >
             SPALDING
           </h1>
@@ -218,12 +224,12 @@ const App: React.FC = () => {
           className="relative flex-1 overflow-y-auto snap-y snap-mandatory scroll-smooth z-30 no-scrollbar"
         >
           {/* Section 1: Hero */}
-          <section className="h-full w-full flex flex-col items-center justify-center snap-start relative px-12 overflow-hidden">
+          <section className="h-full w-full flex flex-col items-center justify-center snap-start relative px-6 md:px-12 overflow-hidden">
             
             {/* Top Left: Promotion Video */}
-            <div className="absolute top-32 left-12 flex items-center gap-4 group cursor-pointer z-40 ui-fade-in">
+            <div className="absolute top-28 md:top-32 left-6 md:left-12 flex items-center gap-3 md:gap-4 group cursor-pointer z-40 ui-fade-in">
               <div 
-                className="w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 group-hover:scale-110"
+                className="w-10 h-10 md:w-14 md:h-14 rounded-full border flex items-center justify-center transition-all duration-500 group-hover:scale-110"
                 style={{ 
                   borderColor: `${themeColor}66`, 
                   backgroundColor: `${themeColor}11`,
@@ -231,44 +237,44 @@ const App: React.FC = () => {
                 }}
               >
                 <div 
-                  className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-b-[8px] border-b-transparent ml-1"
+                  className="w-0 h-0 border-t-[6px] md:border-t-[8px] border-t-transparent border-l-[10px] md:border-l-[12px] border-b-[6px] md:border-b-[8px] border-b-transparent ml-1"
                   style={{ borderLeftColor: themeColor }}
                 ></div>
               </div>
-              <span className="text-[16px] font-normal uppercase tracking-widest text-brand-gray group-hover:text-white transition-colors">Promotion video</span>
+              <span className="text-[12px] md:text-[16px] font-normal uppercase tracking-widest text-brand-gray group-hover:text-white transition-colors">Promotion video</span>
             </div>
 
             {/* Bottom Left: Price & Language */}
-            <div className="absolute bottom-12 left-12 z-40 ui-fade-in flex flex-col gap-12">
-              <div className="space-y-2">
-                <div className="text-[36px] font-bold tracking-tighter leading-none" style={{ color: themeColor }}>$34.99</div>
-                <div className="text-[14px] font-medium uppercase tracking-[0.1em] text-brand-gray">SIZE: 29.5 • OFFICIAL</div>
+            <div className="absolute bottom-10 md:bottom-12 left-6 md:left-12 z-40 ui-fade-in flex flex-col gap-8 md:gap-12">
+              <div className="space-y-1 md:space-y-2">
+                <div className="text-[28px] md:text-[36px] font-bold tracking-tighter leading-none" style={{ color: themeColor }}>$34.99</div>
+                <div className="text-[10px] md:text-[14px] font-medium uppercase tracking-[0.1em] text-brand-gray">SIZE: 29.5 • OFFICIAL</div>
               </div>
-              <div className="text-[12px] font-medium text-brand-gray uppercase tracking-widest cursor-pointer hover:text-white transition-colors">
+              <div className="text-[10px] md:text-[12px] font-medium text-brand-gray uppercase tracking-widest cursor-pointer hover:text-white transition-colors">
                 Ru
               </div>
             </div>
 
 
             {/* Bottom Right: Pagination */}
-            <div className="absolute bottom-12 right-12 z-40 ui-fade-in flex flex-col items-center gap-10">
-              <div className="font-bold text-[14px] tracking-[0.1em] rotate-90 origin-center whitespace-nowrap mb-4" style={{ color: themeColor }}>
+            <div className="absolute bottom-10 md:bottom-12 right-6 md:right-12 z-40 ui-fade-in flex flex-col items-center gap-6 md:gap-10">
+              <div className="font-bold text-[10px] md:text-[14px] tracking-[0.1em] rotate-90 origin-center whitespace-nowrap mb-4" style={{ color: themeColor }}>
                 01 / 06
               </div>
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4 md:gap-6">
                 <button 
                   onClick={() => cycleColor('prev')}
-                  className="w-10 h-10 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
+                  className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
                   style={{ borderColor: themeColor, color: themeColor, backgroundColor: `${themeColor}11` }}
                 >
-                  <ArrowRight className="w-4 h-4 -rotate-90" />
+                  <ArrowRight className="w-3 h-3 md:w-4 md:h-4 -rotate-90" />
                 </button>
                 <button 
                   onClick={() => cycleColor('next')}
-                  className="w-10 h-10 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
+                  className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all hover:scale-110"
                   style={{ borderColor: themeColor, color: themeColor, backgroundColor: `${themeColor}11` }}
                 >
-                  <ArrowRight className="w-4 h-4 rotate-90" />
+                  <ArrowRight className="w-3 h-3 md:w-4 md:h-4 rotate-90" />
                 </button>
               </div>
             </div>
@@ -278,10 +284,10 @@ const App: React.FC = () => {
             </div>
 
             {/* Centered Add to Cart Button at Bottom */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-40 ui-fade-in">
+            <div className="absolute bottom-10 md:bottom-12 left-1/2 -translate-x-1/2 z-40 ui-fade-in">
               <button 
                 onClick={addToCart}
-                className="text-white w-[180px] h-[56px] rounded-[12px] font-black text-[20px] uppercase tracking-[0.05em] hover:scale-110 active:scale-95 transition-all duration-500 flex items-center justify-center gap-2"
+                className="text-white w-[140px] md:w-[180px] h-[48px] md:h-[56px] rounded-[10px] md:rounded-[12px] font-black text-[16px] md:text-[20px] uppercase tracking-[0.05em] hover:scale-110 active:scale-95 transition-all duration-500 flex items-center justify-center gap-2"
                 style={{ 
                   backgroundColor: themeColor,
                   boxShadow: `0 0 50px ${themeColor}88`
@@ -298,32 +304,31 @@ const App: React.FC = () => {
           </section>
 
         {/* Section 2: Elite Control */}
-        <section className="h-screen w-full flex items-center justify-start snap-start px-12 md:px-40 relative">
-          <div className="max-w-2xl text-left relative z-40">
+        <section className="h-screen w-full flex items-start md:items-center justify-start snap-start pt-32 md:pt-0 px-6 md:px-40 relative">
+          <div className="max-w-[75%] md:max-w-2xl text-left relative z-40">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="flex items-center gap-4 mb-10 justify-start">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center border" style={{ backgroundColor: `${themeColor}11`, borderColor: `${themeColor}33` }}>
-                  <Cpu className="w-7 h-7" style={{ color: themeColor }} />
+              <div className="flex items-center gap-4 mb-6 md:mb-10 justify-start">
+                <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center border" style={{ backgroundColor: `${themeColor}11`, borderColor: `${themeColor}33` }}>
+                  <Cpu className="w-5 h-5 md:w-7 md:h-7" style={{ color: themeColor }} />
                 </div>
-                <span className="text-[11px] font-black uppercase tracking-[0.5em]" style={{ color: themeColor }}>Grip Technology</span>
+                <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.5em]" style={{ color: themeColor }}>Grip Technology</span>
               </div>
-              <h2 className="text-7xl md:text-9xl font-black tracking-tighter mb-10 uppercase leading-[0.8]">Elite<br/>Control.</h2>
-              <p className="text-xl text-gray-400 leading-relaxed mb-16 max-w-lg">
+              <h2 className="text-5xl md:text-9xl font-black tracking-tighter mb-6 md:mb-10 uppercase leading-[0.8]">Elite<br/>Control.</h2>
+              <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-10 md:mb-16 max-w-lg">
                 Engineered with micro-textured composite leather for unparalleled grip and moisture management. 
-                The ball feels like an extension of your hand.
               </p>
-              <div className="flex justify-start gap-12">
-                <div className="space-y-3">
-                  <div className="text-5xl font-black tracking-tighter">100%</div>
-                  <div className="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-black">Grip Rating</div>
+              <div className="flex justify-start gap-8 md:gap-12">
+                <div className="space-y-2 md:space-y-3">
+                  <div className="text-3xl md:text-5xl font-black tracking-tighter">100%</div>
+                  <div className="text-[8px] md:text-[10px] uppercase tracking-[0.4em] text-gray-500 font-black">Grip Rating</div>
                 </div>
-                <div className="space-y-3">
-                  <div className="text-5xl font-black tracking-tighter">0.5mm</div>
-                  <div className="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-black">Pebble Height</div>
+                <div className="space-y-2 md:space-y-3">
+                  <div className="text-3xl md:text-5xl font-black tracking-tighter">0.5mm</div>
+                  <div className="text-[8px] md:text-[10px] uppercase tracking-[0.4em] text-gray-500 font-black">Pebble Height</div>
                 </div>
               </div>
             </motion.div>
@@ -331,32 +336,31 @@ const App: React.FC = () => {
         </section>
 
         {/* Section 3: Perfect Flight */}
-        <section className="h-screen w-full flex items-center justify-end snap-start px-12 md:px-40 relative">
-          <div className="max-w-2xl text-right relative z-40">
+        <section className="h-screen w-full flex items-start md:items-center justify-end snap-start pt-32 md:pt-0 px-6 md:px-40 relative">
+          <div className="max-w-[75%] md:max-w-2xl text-right relative z-40 ml-auto">
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="flex items-center gap-4 mb-10 justify-end">
-                <span className="text-[11px] font-black uppercase tracking-[0.5em]" style={{ color: themeColor }}>Ballistics</span>
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center border" style={{ backgroundColor: `${themeColor}11`, borderColor: `${themeColor}33` }}>
-                  <Target className="w-7 h-7" style={{ color: themeColor }} />
+              <div className="flex items-center gap-4 mb-6 md:mb-10 justify-end">
+                <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.5em]" style={{ color: themeColor }}>Ballistics</span>
+                <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center border" style={{ backgroundColor: `${themeColor}11`, borderColor: `${themeColor}33` }}>
+                  <Target className="w-5 h-5 md:w-7 md:h-7" style={{ color: themeColor }} />
                 </div>
               </div>
-              <h2 className="text-7xl md:text-9xl font-black tracking-tighter mb-10 uppercase leading-[0.8]">Perfect<br/>Flight.</h2>
-              <p className="text-xl text-gray-400 leading-relaxed mb-16 max-w-lg ml-auto">
+              <h2 className="text-5xl md:text-9xl font-black tracking-tighter mb-6 md:mb-10 uppercase leading-[0.8]">Perfect<br/>Flight.</h2>
+              <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-10 md:mb-16 max-w-lg ml-auto">
                 Our symmetrical internal construction ensures a perfectly balanced rotation. 
-                No more wobble, just pure, consistent flight paths.
               </p>
-              <div className="flex justify-end gap-12">
-                <div className="space-y-3">
-                  <div className="text-5xl font-black tracking-tighter">0.85</div>
-                  <div className="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-black">Drag Coeff</div>
+              <div className="flex justify-end gap-8 md:gap-12">
+                <div className="space-y-2 md:space-y-3">
+                  <div className="text-3xl md:text-5xl font-black tracking-tighter">0.85</div>
+                  <div className="text-[8px] md:text-[10px] uppercase tracking-[0.4em] text-gray-500 font-black">Drag Coeff</div>
                 </div>
-                <div className="space-y-3">
-                  <div className="text-5xl font-black tracking-tighter">28.5</div>
-                  <div className="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-black">Stability</div>
+                <div className="space-y-2 md:space-y-3">
+                  <div className="text-3xl md:text-5xl font-black tracking-tighter">28.5</div>
+                  <div className="text-[8px] md:text-[10px] uppercase tracking-[0.4em] text-gray-500 font-black">Stability</div>
                 </div>
               </div>
             </motion.div>
@@ -364,21 +368,21 @@ const App: React.FC = () => {
         </section>
 
         {/* Section 4: Aerodynamics */}
-        <section className="h-screen w-full flex flex-col items-center justify-between snap-start py-32 px-12 relative">
+        <section className="h-screen w-full flex flex-col items-center justify-between snap-start pt-32 md:py-32 pb-24 px-6 md:px-12 relative">
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center relative z-40"
           >
-            <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-4">Aerodynamics</h2>
-            <p className="uppercase tracking-[0.6em] text-[11px] font-black" style={{ color: themeColor }}>Wind Tunnel Tested / Lab Certified</p>
+            <h2 className="text-4xl md:text-8xl font-black tracking-tighter uppercase mb-4">Aerodynamics</h2>
+            <p className="uppercase tracking-[0.3em] md:tracking-[0.6em] text-[9px] md:text-[11px] font-black" style={{ color: themeColor }}>Wind Tunnel Tested / Lab Certified</p>
           </motion.div>
 
           {/* HUD Elements */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[800px] h-[800px] border border-white/5 rounded-full flex items-center justify-center">
-              <div className="w-[650px] h-[650px] border rounded-full flex items-center justify-center" style={{ borderColor: `${themeColor}11` }}>
-                <div className="w-[500px] h-[500px] border border-white/10 rounded-full animate-[spin_20s_linear_infinite] border-dashed"></div>
+            <div className="w-[300px] h-[300px] md:w-[800px] md:h-[800px] border border-white/5 rounded-full flex items-center justify-center">
+              <div className="w-[240px] h-[240px] md:w-[650px] md:h-[650px] border rounded-full flex items-center justify-center" style={{ borderColor: `${themeColor}11` }}>
+                <div className="w-[180px] h-[180px] md:w-[500px] md:h-[500px] border border-white/10 rounded-full animate-[spin_20s_linear_infinite] border-dashed"></div>
               </div>
             </div>
             {/* Crosshair */}
@@ -386,44 +390,44 @@ const App: React.FC = () => {
             <div className="absolute h-full w-px bg-white/5"></div>
           </div>
 
-          <div className="w-full flex justify-between items-center max-w-7xl relative z-40">
-            <div className="space-y-24">
+          <div className="w-full flex justify-between items-center max-w-7xl relative z-40 px-4">
+            <div className="space-y-16 md:space-y-24">
               <div className="group">
-                <div className="flex items-center gap-8 mb-4">
-                  <div className="w-20 h-[1px]" style={{ backgroundColor: themeColor }}></div>
-                  <div className="text-[11px] font-black uppercase tracking-[0.4em]">1.2mm Pebble</div>
+                <div className="flex items-center gap-4 md:gap-8 mb-2 md:mb-4">
+                  <div className="w-12 md:w-20 h-[1px]" style={{ backgroundColor: themeColor }}></div>
+                  <div className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]">1.2mm Pebble</div>
                 </div>
-                <p className="text-[10px] text-gray-500 max-w-[180px] ml-28 opacity-60">Optimized surface friction for maximum control.</p>
+                <p className="text-[8px] md:text-[10px] text-gray-500 max-w-[120px] md:max-w-[180px] ml-16 md:ml-28 opacity-60">Surface friction control.</p>
               </div>
               <div className="group">
-                <div className="flex items-center gap-8 mb-4">
-                  <div className="w-20 h-[1px]" style={{ backgroundColor: themeColor }}></div>
-                  <div className="text-[11px] font-black uppercase tracking-[0.4em]">High-Tack Coating</div>
+                <div className="flex items-center gap-4 md:gap-8 mb-2 md:mb-4">
+                  <div className="w-12 md:w-20 h-[1px]" style={{ backgroundColor: themeColor }}></div>
+                  <div className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]">High-Tack</div>
                 </div>
-                <p className="text-[10px] text-gray-500 max-w-[180px] ml-28 opacity-60">Specialized finish for superior moisture management.</p>
+                <p className="text-[8px] md:text-[10px] text-gray-500 max-w-[120px] md:max-w-[180px] ml-16 md:ml-28 opacity-60">Moisture management.</p>
               </div>
             </div>
-            <div className="space-y-24 text-right">
+            <div className="space-y-16 md:space-y-24 text-right">
               <div className="group">
-                <div className="flex items-center gap-8 justify-end mb-4">
-                  <div className="text-[11px] font-black uppercase tracking-[0.4em]">Elevation: 12.8°</div>
-                  <div className="w-20 h-[1px]" style={{ backgroundColor: themeColor }}></div>
+                <div className="flex items-center gap-4 md:gap-8 justify-end mb-2 md:mb-4">
+                  <div className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]">12.8° Elev.</div>
+                  <div className="w-12 md:w-20 h-[1px]" style={{ backgroundColor: themeColor }}></div>
                 </div>
-                <p className="text-[10px] text-gray-500 max-w-[180px] mr-28 opacity-60 ml-auto">Optimal launch angle for consistent scoring.</p>
+                <p className="text-[8px] md:text-[10px] text-gray-500 max-w-[120px] md:max-w-[180px] mr-16 md:mr-28 opacity-60 ml-auto">Optimal launch angle.</p>
               </div>
               <div className="group">
-                <div className="flex items-center gap-8 justify-end mb-4">
-                  <div className="text-[11px] font-black uppercase tracking-[0.4em]">Azimuth: 45.2°</div>
-                  <div className="w-20 h-[1px]" style={{ backgroundColor: themeColor }}></div>
+                <div className="flex items-center gap-4 md:gap-8 justify-end mb-2 md:mb-4">
+                  <div className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]">45.2° Azim.</div>
+                  <div className="w-12 md:w-20 h-[1px]" style={{ backgroundColor: themeColor }}></div>
                 </div>
-                <p className="text-[10px] text-gray-500 max-w-[180px] mr-28 opacity-60 ml-auto">Rotational stability across all axes.</p>
+                <p className="text-[8px] md:text-[10px] text-gray-500 max-w-[120px] md:max-w-[180px] mr-16 md:mr-28 opacity-60 ml-auto">Rotational stability.</p>
               </div>
             </div>
           </div>
 
           <div className="text-center relative z-40">
-            <div className="text-6xl font-black mb-3 tracking-tighter" style={{ color: themeColor }}>12.5%</div>
-            <div className="text-[10px] uppercase tracking-[0.5em] text-gray-500 font-black">Less Drag Coefficient</div>
+            <div className="text-4xl md:text-6xl font-black mb-1 md:mb-3 tracking-tighter" style={{ color: themeColor }}>12.5%</div>
+            <div className="text-[8px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.5em] text-gray-500 font-black">Less Drag</div>
           </div>
         </section>
 
@@ -433,17 +437,17 @@ const App: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
-            className="text-center z-30 mb-40"
+            className="text-center z-30 mb-20 md:mb-40"
           >
-            <h2 className="text-8xl md:text-[10rem] font-black tracking-tighter mb-12 uppercase leading-none">The<br/>Champion.</h2>
-            <div className="flex justify-center gap-32">
+            <h2 className="text-6xl md:text-[10rem] font-black tracking-tighter mb-8 md:mb-12 uppercase leading-none">The<br/>Champion.</h2>
+            <div className="flex justify-center gap-12 md:gap-32">
               <div className="text-center">
-                <div className="text-[11px] font-black uppercase tracking-[0.5em] mb-4" style={{ color: themeColor }}>Elite Tier</div>
-                <div className="text-4xl font-black tracking-tighter">FIBA</div>
+                <div className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.5em] mb-2 md:mb-4" style={{ color: themeColor }}>Elite Tier</div>
+                <div className="text-2xl md:text-4xl font-black tracking-tighter">FIBA</div>
               </div>
               <div className="text-center">
-                <div className="text-[11px] font-black uppercase tracking-[0.5em] mb-4" style={{ color: themeColor }}>Gold Standard</div>
-                <div className="text-4xl font-black tracking-tighter">NBA</div>
+                <div className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.5em] mb-2 md:mb-4" style={{ color: themeColor }}>Gold Standard</div>
+                <div className="text-2xl md:text-4xl font-black tracking-tighter">NBA</div>
               </div>
             </div>
           </motion.div>
@@ -458,9 +462,9 @@ const App: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center z-40"
           >
-            <h2 className="text-9xl md:text-[14rem] font-black tracking-tighter mb-12 uppercase leading-[0.8]">Defy<br/>Gravity.</h2>
+            <h2 className="text-6xl md:text-[14rem] font-black tracking-tighter mb-8 md:mb-12 uppercase leading-[0.8]">Defy<br/>Gravity.</h2>
             <button 
-              className="text-white px-20 py-7 rounded-full font-black text-sm uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500"
+              className="text-white px-10 md:px-20 py-4 md:py-7 rounded-full font-black text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500"
               style={{ 
                 backgroundColor: themeColor,
                 boxShadow: `0 0 60px ${themeColor}66`
@@ -470,17 +474,17 @@ const App: React.FC = () => {
             </button>
           </motion.div>
           
-          <footer className="absolute bottom-12 w-full px-16 flex flex-col md:flex-row justify-between items-end gap-8 text-[10px] font-black uppercase tracking-[0.4em] text-gray-600">
-            <div className="flex flex-col gap-4">
-              <div className="flex gap-8">
+          <footer className="absolute bottom-8 md:bottom-12 w-full px-6 md:px-16 flex flex-col md:flex-row justify-between items-center md:items-end gap-6 md:gap-8 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-gray-600">
+            <div className="flex flex-col items-center md:items-start gap-3 md:gap-4">
+              <div className="flex gap-6 md:gap-8">
                 <a href="#" className="hover:text-white transition-colors">Instagram</a>
                 <a href="#" className="hover:text-white transition-colors">Twitter</a>
                 <a href="#" className="hover:text-white transition-colors">Facebook</a>
               </div>
-              <div className="opacity-40">© 2026 BASKET BALL STORE / PERFORMANCE DIVISION</div>
+              <div className="opacity-40 text-center md:text-left">© 2026 BASKET BALL STORE / PERFORMANCE DIVISION</div>
             </div>
-            <div className="flex items-center gap-6 opacity-60">
-              <Shield className="w-4 h-4" />
+            <div className="flex items-center gap-4 md:gap-6 opacity-60">
+              <Shield className="w-3 h-3 md:w-4 md:h-4" />
               <span>Secure Checkout</span>
             </div>
           </footer>
