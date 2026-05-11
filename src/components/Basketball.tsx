@@ -11,12 +11,12 @@ interface BasketballProps {
 
 // Keyframe data: [progress, x, y, z, scale]
 const KEYFRAMES = [
-  { p: 0,    x: 0,  y: 0,    z: 0,  s: 1.2 }, // Hero: center, medium
-  { p: 0.2,  x: 5,  y: -1.8, z: 0,  s: 4.5 }, // Elite Control: right, BIG
-  { p: 0.4,  x: -5, y: -3.5, z: 0,  s: 4.5 }, // Perfect Flight: left, BIG
-  { p: 0.6,  x: 0,  y: 0,    z: 0,  s: 2.2 }, // Aerodynamics: center
-  { p: 0.8,  x: 0,  y: 1.2,  z: 0,  s: 2.5 }, // Champion: up
-  { p: 1.0,  x: 0,  y: 4,    z: -5, s: 1.0 }, // Defy Gravity: fly away
+  { p: 0, x: 0, y: 0, z: 0, s: 1.2 }, // Hero: center, medium
+  { p: 0.2, x: 5, y: -1.8, z: 0, s: 4.5 }, // Elite Control: right, BIG
+  { p: 0.4, x: -5, y: -3.5, z: 0, s: 4.5 }, // Perfect Flight: left, BIG
+  { p: 0.6, x: 0, y: 0, z: 0, s: 2.2 }, // Aerodynamics: center
+  { p: 0.8, x: 0, y: 1.2, z: 0, s: 2.5 }, // Champion: up
+  { p: 1.0, x: 0, y: 4, z: -5, s: 1.0 }, // Defy Gravity: fly away
 ];
 
 function lerp(a: number, b: number, t: number) {
@@ -30,22 +30,22 @@ function easeInOut(t: number) {
 function getKeyframeValues(progress: number) {
   const p = Math.max(0, Math.min(1, progress));
   const isMobile = window.innerWidth < 768;
-  
+
   // Responsive keyframes
   const mobileKeyframes = [
-    { p: 0,    x: 0,    y: 0.5,  z: 0,  s: 0.8 }, // Hero: Middle
-    { p: 0.2,  x: 2.5,  y: 0.5,  z: 1,  s: 1.8 }, // Elite Control: Right (further right, smaller)
-    { p: 0.4,  x: -2.5, y: 0.5,  z: 1,  s: 1.8 }, // Perfect Flight: Left (further left, smaller)
-    { p: 0.6,  x: 0,    y: 0,    z: 0,  s: 1.0 }, // Aerodynamics: Middle (perfect fit for HUD)
-    { p: 0.8,  x: 0,    y: 0.8,  z: 0,  s: 1.2 }, // Champion: Middle
-    { p: 1.0,  x: 0,    y: 4,    z: -5, s: 0.6 }, // Defy Gravity
+    { p: 0, x: 0, y: 0.5, z: 0, s: 0.8 }, // Hero: Middle
+    { p: 0.2, x: 2.5, y: 0.5, z: 1, s: 1.8 }, // Elite Control: Right (further right, smaller)
+    { p: 0.4, x: -2.5, y: 0.5, z: 1, s: 1.8 }, // Perfect Flight: Left (further left, smaller)
+    { p: 0.6, x: 0, y: 0, z: 0, s: 1.0 }, // Aerodynamics: Middle (perfect fit for HUD)
+    { p: 0.8, x: 0, y: 0.8, z: 0, s: 1.2 }, // Champion: Middle
+    { p: 1.0, x: 0, y: 4, z: -5, s: 0.6 }, // Defy Gravity
   ];
 
   const currentKeyframes = isMobile ? mobileKeyframes : KEYFRAMES;
-  
+
   let from = currentKeyframes[0];
   let to = currentKeyframes[currentKeyframes.length - 1];
-  
+
   for (let i = 0; i < currentKeyframes.length - 1; i++) {
     if (p >= currentKeyframes[i].p && p <= currentKeyframes[i + 1].p) {
       from = currentKeyframes[i];
@@ -53,10 +53,10 @@ function getKeyframeValues(progress: number) {
       break;
     }
   }
-  
+
   const segmentRange = to.p - from.p;
   const t = segmentRange === 0 ? 0 : easeInOut((p - from.p) / segmentRange);
-  
+
   return {
     x: lerp(from.x, to.x, t),
     y: lerp(from.y, to.y, t),
